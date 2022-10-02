@@ -38,10 +38,10 @@ class Mesa(object):
         cartas_todas = cartas_oro + cartas_bas + cartas_cop + cartas_esp
 
         #Añade cartas a la lista, acá esta el mazo}
+
         
         for card in cartas_todas: 
             
-    
             self.cards.append(card)
 
 
@@ -49,7 +49,14 @@ class Mesa(object):
         random.shuffle(self.cards)
 
         
-            
+    def dimelo(self):
+        contador = 0    
+        for c in self.cards:
+            carta = c
+            carta.printMe()
+            contador = contador + 1
+        print(contador)
+    
 
     #Retorna el mazo
 
