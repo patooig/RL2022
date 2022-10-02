@@ -48,15 +48,10 @@ class Mesa(object):
     def revolverCartas(self):
         random.shuffle(self.cards)
 
-    def dimelo(self):
         
             
 
     #Retorna el mazo
-   
-            
-
-
 
 
 if __name__ == '__main__':
