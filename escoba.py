@@ -2,10 +2,11 @@
 import random
 
 
-class Carta(object):
+class Carta:
+
     #Se defice palo y valor de la carta
     def __init__(self, p, v):
-        self.palo = p 
+        self.palo= p 
         self.valor = v
 
     #Carta es jugable o no (esta en la mano)
@@ -17,10 +18,12 @@ class Carta(object):
         print(self.palo, self.valor)
 
 
-class Mesa(object):
+class Mesa:
+    
+    cards = list()
+
+
     def __init__(self):
-        self.cards = list()
-        self.cards_disc = list()
         self.build()
         self.revolverCartas()
         self.dimelo()
@@ -41,7 +44,6 @@ class Mesa(object):
 
         
         for card in cartas_todas: 
-            
             self.cards.append(card)
 
 
@@ -60,6 +62,13 @@ class Mesa(object):
 
     #Retorna el mazo
 
+
+class Persona:
+    
+    def __init__(self, name, r):
+        self.nombre = name
+        bool repartidor = r
+        
 
 if __name__ == '__main__':
     Mesa()
