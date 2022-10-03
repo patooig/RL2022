@@ -1,5 +1,6 @@
 
 import random
+from tkinter import SEL
 
 
 class Carta:
@@ -20,13 +21,15 @@ class Carta:
 
 class Mesa:
     
-    cards = list()
-
+    todasCartas = list() #Todas las cartas
+    cardsMesa = list()
 
     def __init__(self):
         self.build()
         self.revolverCartas()
         self.dimelo()
+        self.dimecartasmesa()
+ 
         
 
     def build(self):
@@ -41,34 +44,72 @@ class Mesa:
         cartas_todas = cartas_oro + cartas_bas + cartas_cop + cartas_esp
 
         #Añade cartas a la lista, acá esta el mazo}
-
-        
         for card in cartas_todas: 
-            self.cards.append(card)
+            self.todasCartas.append(card)
 
 
     def revolverCartas(self):
-        random.shuffle(self.cards)
+        random.shuffle(self.todasCartas)
 
+    def cartasMesa(self):
+        for i in range(0,4):
+            self.cardsMesa.append(self.todasCartas.pop())
         
     def dimelo(self):
         contador = 0    
-        for c in self.cards:
+        for c in self.todasCartas:
             carta = c
             carta.printMe()
             contador = contador + 1
         print(contador)
-    
 
-    #Retorna el mazo
+    def dimecartasmesa(self):
+        self.cartasMesa()
+        for c in self.cardsMesa:
+            carta = c
+            carta.printMe()
+
+    def saca3Cartas(self):
+        l = list()
+        for i in range(0,3):
+            l.append(self.todasCartas.pop())
+        return l
+        
 
 
 class Persona:
     
-    def __init__(self, name, r):
+    #Lista con cartas que tengo en la mano
+    miMano = list()
+
+    #Lista con cartas que ya tengo recogidas
+    misCartasRecogidas = list()
+
+
+    def __init__(self, name):
+
+        #Nombre persona
         self.nombre = name
-        bool repartidor = r
+
+    def recibeCartas(self,c):
+        #Debe recibir las 3 cartas en la mano
+        for i in c:
+            self.miMano.append(i)
+
+    def recogeCartas(self):
+        self.misCartasRecogidas.append()
+
+
+        
+    
+
+
         
 
 if __name__ == '__main__':
-    Mesa()
+    m = Mesa()
+    m.dimelo()
+    Per1 = Persona("Pato")
+    Per1.recibeCartas(m.saca3Cartas())
+    
+    
