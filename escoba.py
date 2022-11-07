@@ -1,6 +1,5 @@
 
 import random
-from tkinter import SEL
 
 
 class Carta:
@@ -21,13 +20,13 @@ class Carta:
 
 class Mesa:
     
-    todasCartas = list() #Todas las cartas
-    cardsMesa = list()
+    cartasMazo = list() #Todas las cartas
+    cartasMesa = list()
 
     def __init__(self):
         self.build()
         self.revolverCartas()
-        self.dimelo()
+        self.numeroCartasMesa()
         self.dimecartasmesa()
  
         
@@ -45,35 +44,40 @@ class Mesa:
 
         #Añade cartas a la lista, acá esta el mazo}
         for card in cartas_todas: 
-            self.todasCartas.append(card)
+            self.cartasMazo.append(card)
 
-
+    #Ordena las cartas aleatoriamente en la lista
     def revolverCartas(self):
-        random.shuffle(self.todasCartas)
+        random.shuffle(self.cartasMazo)
 
-    def cartasMesa(self):
+    #Agrega cartas a la mesa
+    def dar4CartasMesa(self):
         for i in range(0,4):
-            self.cardsMesa.append(self.todasCartas.pop())
-        
-    def dimelo(self):
-        contador = 0    
-        for c in self.todasCartas:
-            carta = c
-            carta.printMe()
-            contador = contador + 1
-        print(contador)
+            self.cartasMesa.append(self.cartasMazo.pop())
 
+
+    #Retorna el numero de cartas boca arriba en la mesa.
+    def numeroCartasMesa(self):
+        contador = len(self.dar4CartasMesa)
+        return contador
+
+    #Imprime en consola las cartas que estan en la mesa
     def dimecartasmesa(self):
-        self.cartasMesa()
-        for c in self.cardsMesa:
+        self.dar4CartasMesa()
+        for c in self.dar4CartasMesa:
             carta = c
             carta.printMe()
 
-    def saca3Cartas(self):
+    #Sacar 3 cartas del mazo.
+    def saca3cartasMazo(self):
         l = list()
         for i in range(0,3):
-            l.append(self.todasCartas.pop())
+            l.append(self.cartasMazo.pop())
         return l
+
+    #Retorna lista de cartas en la mesa.
+    def getCartasMesa(self):
+        return self.cartasMesa
         
 
 
@@ -96,8 +100,31 @@ class Persona:
         for i in c:
             self.miMano.append(i)
 
+    #Como recojo las cartas??
     def recogeCartas(self):
-        self.misCartasRecogidas.append()
+
+        #Tomamos cada carta
+        c1 = self.miMano.pop()
+        c2 = self.miMano.pop()
+        c3 = self.miMano.pop()
+
+        self.calcularSuma1a1(cc1 = c1)
+        self.calcularSuma1a1(cc1 = c2)
+        self.calcularSuma1a1(cc1 = c3)
+        
+        #Combinaciones con la primera carta
+
+
+    def calcularSuma1a1(cc1):
+        
+
+
+        return 1
+
+
+
+
+
 
 
         
@@ -108,8 +135,10 @@ class Persona:
 
 if __name__ == '__main__':
     m = Mesa()
-    m.dimelo()
+    print(m.numeroCartasMesa())
     Per1 = Persona("Pato")
-    Per1.recibeCartas(m.saca3Cartas())
+    Per1.recibeCartas(m.saca3cartasMazo())
+    
+
     
     
