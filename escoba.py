@@ -31,13 +31,13 @@ class Carta:
 class Mesa:
     
     cartasMazo = list() #Todas las cartas
-    cartasMesa = list()
+    cartasMesa = list() #Cartas por repartir
 
     def __init__(self):
         self.build()
         self.revolverCartas()
         self.darCartasMesa()
-        self.dimecartasmesa()
+        self.printCartasMesa()
  
         
 
@@ -72,7 +72,7 @@ class Mesa:
         return contador
 
     #Imprime en consola las cartas que estan en la mesa
-    def dimecartasmesa(self):
+    def printCartasMesa(self):
         for i in range(len(self.cartasMesa)):
             carta = self.cartasMesa[i]
             carta.printMe()
