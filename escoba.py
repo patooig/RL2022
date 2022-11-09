@@ -4,6 +4,8 @@ import random
 
 class Carta:
 
+    valor = 0
+    palo = ''
     #Se defice palo y valor de la carta
     def __init__(self, p, v):
         self.palo= p 
@@ -17,6 +19,14 @@ class Carta:
     def printMe(self):
         print(self.palo, self.valor)
 
+    #Retorna el valor de la carta
+    def getValor(self):
+        return self.valor
+
+    #Retornoa el palo de la carta
+    def getPalo(self):
+        return self.palo
+
 
 class Mesa:
     
@@ -26,7 +36,7 @@ class Mesa:
     def __init__(self):
         self.build()
         self.revolverCartas()
-        self.numeroCartasMesa()
+        self.darCartasMesa()
         self.dimecartasmesa()
  
         
@@ -51,21 +61,20 @@ class Mesa:
         random.shuffle(self.cartasMazo)
 
     #Agrega cartas a la mesa
-    def dar4CartasMesa(self):
+    def darCartasMesa(self):
         for i in range(0,4):
             self.cartasMesa.append(self.cartasMazo.pop())
 
 
     #Retorna el numero de cartas boca arriba en la mesa.
     def numeroCartasMesa(self):
-        contador = len(self.dar4CartasMesa)
+        contador = len(self.cartasMesa)
         return contador
 
     #Imprime en consola las cartas que estan en la mesa
     def dimecartasmesa(self):
-        self.dar4CartasMesa()
-        for c in self.dar4CartasMesa:
-            carta = c
+        for i in range(len(self.cartasMesa)):
+            carta = self.cartasMesa[i]
             carta.printMe()
 
     #Sacar 3 cartas del mazo.
@@ -86,17 +95,18 @@ class Persona:
     #Lista con cartas que tengo en la mano
     miMano = list()
 
+    #Lista de las cartas que hay en la mesa
+    m = Mesa().cartasMesa
+
     #Lista con cartas que ya tengo recogidas
     misCartasRecogidas = list()
 
-
+    #Constructor de clase Persona
     def __init__(self, name):
+        self.nombre = name  #Nombre persona
 
-        #Nombre persona
-        self.nombre = name
-
+    #Debe recibir las 3 cartas en la mano
     def recibeCartas(self,c):
-        #Debe recibir las 3 cartas en la mano
         for i in c:
             self.miMano.append(i)
 
@@ -105,22 +115,19 @@ class Persona:
 
         #Tomamos cada carta
         c1 = self.miMano.pop()
-        c2 = self.miMano.pop()
-        c3 = self.miMano.pop()
+        #c2 = self.miMano.pop()
+        #c3 = self.miMano.pop()
 
-        self.calcularSuma1a1(cc1 = c1)
-        self.calcularSuma1a1(cc1 = c2)
-        self.calcularSuma1a1(cc1 = c3)
+    
+        #print(list(combinations))
+
+        #self.calcularSuma1a1(cc1 = c2)
+        #self.calcularSuma1a1(cc1 = c3)
         
         #Combinaciones con la primera carta
 
-
-    def calcularSuma1a1(cc1):
-        
-
-
-        return 1
-
+    def verMesa(self,mesa):
+        self.m = mesa
 
 
 
@@ -137,7 +144,10 @@ if __name__ == '__main__':
     m = Mesa()
     print(m.numeroCartasMesa())
     Per1 = Persona("Pato")
+    
     Per1.recibeCartas(m.saca3cartasMazo())
+    Per1.verMesa(m)
+    Per1.recogeCartas()
     
 
     
