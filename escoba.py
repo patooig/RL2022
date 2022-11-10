@@ -110,53 +110,73 @@ class Persona:
         self.miMano = c
 
     #Como recojo las cartas??
-    def recogeCartas(self):
 
-        #Realizamos las combinaciones posibles
+    def recogerCartas(self):
 
-        #while len(self.miMano)>1:	#Un bucle que llama la funcion hasta que esten todas las combinaciones posibles
-        comb_final=self.combinacion(self.m,self.miMano)	#Llama a la funcion "combinacion" y le pasa como parametros la lista de cartas en la mesa y la lista de cartas en la mano
+        c1 = self.miMano[0] #Carta 1
+        c2 = self.miMano[1] #Carta 2
+        c3 = self.miMano[2] #Carta 3
+
+        self.combinacionesMesa()
+
+
+
+
+
+    def combinacionesMesa(self):
+        #Combinaciones posibles de las cartas en la mesa
+        combinaciones = list()
+
+        #Combinaciones de 1 carta
+        combinaciones.append(self.m[0]) #Agrego la primera carta de la mesa A
+        combinaciones.append(self.m[1]) #Agrego la segunda carta de la mesa B
+        combinaciones.append(self.m[2]) #Agrego la tercera carta de la mesa C
+        combinaciones.append(self.m[3]) #Agrego la cuarta carta de la mesa D
+
+        #Combinaciones de 2 cartas
+        for i in range(0,3):
+            for j in range(0,4):
+                if i != j and i < j:
+                    if self.m[i].getValor() + self.m[j].getValor() < 15:
+                        aux = list()
+                        aux.append([self.m[i],self.m[j]])
+                        combinaciones.append(aux)
+
+        #Combinaciones de 3 cartas
+        for i in range(0,3):
+            for j in range(0,4):
+                for k in range(0,4):
+                    if i != j and i != k and j != k and i < j and j < k:
+                        if self.m[i].getValor() + self.m[j].getValor() + self.m[k].getValor() < 15:
+                            aux = list()
+                            aux.append([self.m[i],self.m[j],self.m[k]])
+                            combinaciones.append(aux)
+
+        #Combinaciones de 4 cartas
         
-        comb = comb_final
-
-        print(comb)
-        #c2 = self.miMano.pop()
-        #c3 = self.miMano.pop()
-
-    
-        #print(list(combinations))
-
-        #self.calcularSuma1a1(cc1 = c2)
-        #self.calcularSuma1a1(cc1 = c3)
+        if self.m[0].getValor() + self.m[1].getValor() + self.m[2].getValor() + self.m[3].getValor() < 15:
+            aux = list()
+            aux.append([self.m[0],self.m[1],self.m[2],self.m[3]])
+            combinaciones.append(aux)
         
-        #Combinaciones con la primera carta
+        print("Combinaciones posibles: ", len(combinaciones))
+        return combinaciones
+  
 
     def verMesa(self,mesa):
         self.m = mesa
 
-    def combinacion(combinar, lista):
-        
-        new_comb = list()
-        
-        for x in combinar:
-            pto=lista.index(x[len(x)-1]) #Hace que el nuevo elemento agregado de "Lista", sea el siguiente en posicion del ultimo caracter del elemento "combinar"
-            for j in range(pto,len(lista)):	# para cada elemento de 'lista' desde el elemento "lista" que hace parte del ultimo caracter del elemento de "combinar" hasta el ultimo elemento de'lista'
-                if lista[j] not in x and lista[len(lista)-1] not in x:	#Si el elemento de "lista" no esta en el elemento "combinar" y ademas el elemento "lista" no es el ultimo caracter del elemento "combinar"
-                    new_comb.append(x+lista[j]) #Agrega a una nueva lista la combinacion
-        print(new_comb)
-
-        return new_comb #Esta nueva lista se utilizara como parametro al llamar de nuevo la funcion... 
 
  
         
 
 if __name__ == '__main__':
     m = Mesa()
-    print(m.numeroCartasMesa())
+    #print(m.numeroCartasMesa())
     Per1 = Persona("Pato")
     Per1.recibeCartas(m.saca3cartasMazo())
-    Per1.verMesa(m.cartasMesa)
-    Per1.recogeCartas()
+    Per1.verMesa(m.getCartasMesa())
+    Per1.recogerCartas()
     
 
     
