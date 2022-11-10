@@ -30,7 +30,7 @@ class Carta:
 class Mesa:
 #hola
     cartasMazo = list() #Todas las cartas
-    cartasMesa = list() #Cartas por repartir
+    cartasMesa = list() #Cartas en la mesa
 
     def __init__(self):
         self.build()
@@ -51,9 +51,10 @@ class Mesa:
 
         cartas_todas = cartas_oro + cartas_bas + cartas_cop + cartas_esp
 
-        #Añade cartas a la lista, acá esta el mazo}
-        for card in cartas_todas: 
-            self.cartasMazo.append(card)
+        #Agrega las cartas a la lista de cartas del mazo
+        self.cartasMazo = cartas_todas
+        
+        
 
     #Ordena las cartas aleatoriamente en la lista
     def revolverCartas(self):
@@ -95,7 +96,7 @@ class Persona:
     miMano = list()
 
     #Lista de las cartas que hay en la mesa
-    m = Mesa().cartasMesa
+    m = list()
 
     #Lista con cartas que ya tengo recogidas
     misCartasRecogidas = list()
@@ -106,14 +107,19 @@ class Persona:
 
     #Debe recibir las 3 cartas en la mano
     def recibeCartas(self,c):
-        for i in c:
-            self.miMano.append(i)
+        self.miMano = c
 
     #Como recojo las cartas??
     def recogeCartas(self):
 
-        #Tomamos cada carta
-        c1 = self.miMano.pop()
+        #Realizamos las combinaciones posibles
+
+        #while len(self.miMano)>1:	#Un bucle que llama la funcion hasta que esten todas las combinaciones posibles
+        comb_final=self.combinacion(self.m,self.miMano)	#Llama a la funcion "combinacion" y le pasa como parametros la lista de cartas en la mesa y la lista de cartas en la mano
+        
+        comb = comb_final
+
+        print(comb)
         #c2 = self.miMano.pop()
         #c3 = self.miMano.pop()
 
@@ -128,24 +134,28 @@ class Persona:
     def verMesa(self,mesa):
         self.m = mesa
 
-
-
-
-
-
+    def combinacion(combinar, lista):
         
-    
+        new_comb = list()
+        
+        for x in combinar:
+            pto=lista.index(x[len(x)-1]) #Hace que el nuevo elemento agregado de "Lista", sea el siguiente en posicion del ultimo caracter del elemento "combinar"
+            for j in range(pto,len(lista)):	# para cada elemento de 'lista' desde el elemento "lista" que hace parte del ultimo caracter del elemento de "combinar" hasta el ultimo elemento de'lista'
+                if lista[j] not in x and lista[len(lista)-1] not in x:	#Si el elemento de "lista" no esta en el elemento "combinar" y ademas el elemento "lista" no es el ultimo caracter del elemento "combinar"
+                    new_comb.append(x+lista[j]) #Agrega a una nueva lista la combinacion
+        print(new_comb)
 
+        return new_comb #Esta nueva lista se utilizara como parametro al llamar de nuevo la funcion... 
 
+ 
         
 
 if __name__ == '__main__':
     m = Mesa()
     print(m.numeroCartasMesa())
     Per1 = Persona("Pato")
-    
     Per1.recibeCartas(m.saca3cartasMazo())
-    Per1.verMesa(m)
+    Per1.verMesa(m.cartasMesa)
     Per1.recogeCartas()
     
 
