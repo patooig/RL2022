@@ -1,4 +1,3 @@
-
 import random
 
 
@@ -29,7 +28,7 @@ class Carta:
 
 
 class Mesa:
-    
+#hola
     cartasMazo = list() #Todas las cartas
     cartasMesa = list() #Cartas por repartir
 
