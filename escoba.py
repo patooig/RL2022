@@ -22,7 +22,7 @@ class Carta:
     def getValor(self):
         return self.valor
 
-    #Retornoa el palo de la carta
+    #Retorna el palo de la carta
     def getPalo(self):
         return self.palo
 
@@ -111,13 +111,27 @@ class Persona:
 
     #Como recojo las cartas??
 
+    def verificarCombinacionyCarta(self,c,comb):
+
+        for i in range(len(comb)):
+            for j in len(comb[i]):
+                sum += comb[i][j].getValor()
+            if(sum + c.getValor() == 15):
+                #Guardamos comb[i][j] 
+
+
+    
+
+
     def recogerCartas(self):
 
         c1 = self.miMano[0] #Carta 1
         c2 = self.miMano[1] #Carta 2
         c3 = self.miMano[2] #Carta 3
 
-        self.combinacionesMesa()
+        comb = self.combinacionesMesa()
+
+        self.verificarCombinacionyCarta(c1,comb)
 
 
 
@@ -128,10 +142,10 @@ class Persona:
         combinaciones = list()
 
         #Combinaciones de 1 carta
-        combinaciones.append(self.m[0]) #Agrego la primera carta de la mesa A
-        combinaciones.append(self.m[1]) #Agrego la segunda carta de la mesa B
-        combinaciones.append(self.m[2]) #Agrego la tercera carta de la mesa C
-        combinaciones.append(self.m[3]) #Agrego la cuarta carta de la mesa D
+        combinaciones.append(list(self.m[0])) #Agrego la primera carta de la mesa A
+        combinaciones.append(list(self.m[1])) #Agrego la segunda carta de la mesa B
+        combinaciones.append(list(self.m[2])) #Agrego la tercera carta de la mesa C
+        combinaciones.append(list(self.m[3])) #Agrego la cuarta carta de la mesa D
 
         #Combinaciones de 2 cartas
         for i in range(0,3):
