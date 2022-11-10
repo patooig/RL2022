@@ -117,6 +117,7 @@ class Persona:
             for j in len(comb[i]):
                 sum += comb[i][j].getValor()
             if(sum + c.getValor() == 15):
+                print('si')
                 #Guardamos comb[i][j] 
 
 
