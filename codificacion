@@ -1,0 +1,51 @@
+
+Map
+
+0-9 Cartas de Oro
+10 - 19 Cartas de basto
+20 - 29 cartas de espada
+30 - 39 cartas de copa
+
+map< string , int> 
+
+ESPACIO DE ACCIONES
+
+CARTAS Oro
+'o-1' : 0
+'o-2' : 1
+'o-3' : 2
+'o-4' : 3
+.
+.
+.
+'o-12' :9 
+
+CARTAS Basto
+'b-1' : 10
+'b-2' : 11
+'b-3' : 12
+'b-4' : 13
+.
+.
+.
+'b-12' : 19
+
+CARTAS Espada
+'e-1' : 20
+'e-2' : 21
+'e-3' : 22
+'e-4' : 23
+.
+.
+.
+'e-12' : 29
+
+CARTAS Copa
+'c-1' : 30
+'c-2' : 31
+'c-3' : 32
+'c-4' : 33
+.
+.
+.
+'c-12' : 39

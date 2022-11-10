@@ -113,11 +113,14 @@ class Persona:
 
     def verificarCombinacionyCarta(self,c,comb):
 
-        for i in range(len(comb)):
-            for j in len(comb[i]):
-                sum += comb[i][j].getValor()
-            if(sum + c.getValor() == 15):
-                print('si')
+        for i in range(0,len(comb)):
+            sum = 0
+            if i > 3:
+                for j in range(0,len(comb[i])):
+                    sum += comb[i][j].getValor()
+                    if(sum + c.getValor() == 15):
+                        sum = 0
+                        print('si')
                 #Guardamos comb[i][j] 
 
 
@@ -143,10 +146,12 @@ class Persona:
         combinaciones = list()
 
         #Combinaciones de 1 carta
-        combinaciones.append(list(self.m[0])) #Agrego la primera carta de la mesa A
-        combinaciones.append(list(self.m[1])) #Agrego la segunda carta de la mesa B
-        combinaciones.append(list(self.m[2])) #Agrego la tercera carta de la mesa C
-        combinaciones.append(list(self.m[3])) #Agrego la cuarta carta de la mesa D
+    
+        combinaciones.append(self.m[0]) #Agrego la primera carta de la mesa A
+        combinaciones.append(self.m[1]) #Agrego la segunda carta de la mesa B
+        combinaciones.append(self.m[2]) #Agrego la tercera carta de la mesa C
+        combinaciones.append(self.m[3]) #Agrego la cuarta carta de la mesa D
+
 
         #Combinaciones de 2 cartas
         for i in range(0,3):
