@@ -62,3 +62,6 @@ class Mesa:
     #Retorna lista de cartas en la mesa.
     def getCartasMesa(self):
         return self.cartasMesa
+
+    def setMesa(self,mesa):
+        self.cartasMesa = mesa

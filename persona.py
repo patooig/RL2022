@@ -1,3 +1,4 @@
+from random import randint
 from carta import Carta
 from mesa import Mesa       
 
@@ -25,7 +26,7 @@ class Persona:
 
     def verificarCombinacionyCarta(self,c,comb):
 
-        combinacionesValidas = list()
+        combinacionesValidas = []
 
         print("Carta a verificar: ", c.getPalo(), c.getValor())
 
@@ -43,9 +44,10 @@ class Persona:
 
             #Si es de tipo lista
             if type(comb[i]) == list:
+                sum = 0
                 for j in range (len(comb[i])):
                     #print("Carta en la mesa: ")
-                    sum = 0
+                    
                     for k in range (len(comb[i][j])):
                         sum = sum + comb[i][j][k].getValor()
                         #print(comb[i][j][k].getPalo(), comb[i][j][k].getValor())
@@ -75,36 +77,72 @@ class Persona:
 
         comb = self.combinacionesMesa()
 
-        tirarc1 = True
         posibilidadesConC1 = self.verificarCombinacionyCarta(c1,comb)
-        if len(posibilidadesConC1) == 0:
-            tirarc1 = False
+        tirarc1 = self._actualizarMesayMano(c1,posibilidadesConC1)
+        if (tirarc1 == True):
+            print('Carta 1 recogida')
 
-        tirarc2 = True
         posibilidadesConC2 = self.verificarCombinacionyCarta(c2,comb)
-        if len(posibilidadesConC2) == 0:
-            tirarc2 = False
-
-
-        tirarc3 = True
+        tirarc2 = self._actualizarMesayMano(c2,posibilidadesConC2)
+        if (tirarc2 == True):
+            print('Carta 2 recogida')
+        
         posibilidadesConC3 = self.verificarCombinacionyCarta(c3,comb)
-        if len(posibilidadesConC3) == 0:
-            tirarc3 = False
+        tirarc3 = self._actualizarMesayMano(c3,posibilidadesConC3)
+        if (tirarc3 == True):
+            print('Carta 3 recogida')
 
 
         if tirarc1 == False and tirarc2 == False and tirarc3 == False:
             print("No hay combinaciones posibles, se debe tirar una carta del mazo")
             #Tirar una carta del mazo a la mesa
+            self.m.append(self.miMano.pop())
+            #Actualizar mesa
 
+
+    def _actualizarMesayMano(self,card,vect):
+        if len(vect) == 0:
             return False
+        else :
+            
+            #Recoger cartas de la mesa
+            tamC1 = len(vect)
+            v = randint(0,tamC1-1)
+            
+              #Puede ser lista o carta (verificar)
+            if type(vect[v]) is Carta:
+                self.misCartasRecogidas.append(vect[v]) #Agrego carta a mis cartas recogidas
+                self.misCartasRecogidas.append(card) #Agrego carta a mis cartas recogidas
+                if self.m.count(vect[v]) == 1:
+                    self.m.remove(vect[v])
+                
+                self.miMano.remove(card) #Elimino carta de mi mano
+    
+            
+            if type(vect[v]) == list:
+                for i in range(len(vect[v])):
+                    for j in range(len(vect[v][i])):
+                        self.misCartasRecogidas.append(vect[v][i][j])
+                        if self.m.count(vect[v][i][j]) == 1:
+                            self.m.remove(vect[v][i][j])
+                self.miMano.remove(card) #Remuevo de la mano
+                self.misCartasRecogidas.append(card) #Agrego a mis cartas recogidas
+
+                   
+
+             #Remuevo de la mesa
+            
+            return True #Retorno True para indicar que se recogio la carta
 
 
 
+    def actualizarMesa(self):
+        return self.m
 
 
     def combinacionesMesa(self):
         #Combinaciones posibles de las cartas en la mesa
-        combinaciones = list(list())
+        combinaciones = []
 
         #Combinaciones de 1 carta
         combinaciones.append(self.m[0]) #Agrego la primera carta de la mesa A
