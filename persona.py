@@ -24,16 +24,15 @@ class Persona:
 
     #Como recojo las cartas??
 
+    #Retorna un arreglo con todas las combinaciones posibles de la mesa
     def verificarCombinacionyCarta(self,c,comb):
 
         combinacionesValidas = []
 
         print("Carta a verificar: ", c.getPalo(), c.getValor())
 
-        #print('Tamaño del vector', len(comb))
 
         for i in range(len(comb)):
-
 
             #Si es de tipo Carta
             if type(comb[i]) is Carta:
@@ -47,16 +46,20 @@ class Persona:
                 sum = 0
                 for j in range (len(comb[i])):
                     #print("Carta en la mesa: ")
-                    
-                    for k in range (len(comb[i][j])):
-                        sum = sum + comb[i][j][k].getValor()
+                    if type(comb[i][j]) is Carta:
+                        #print(comb[i][j].getPalo(), comb[i][j].getValor())
+                        sum = sum + comb[i][j].getValor()
+                    else:
+                        for k in range (len(comb[i][j])):
+                            sum = sum + comb[i][j][k].getValor()
                         #print(comb[i][j][k].getPalo(), comb[i][j][k].getValor())
                     if sum + c.getValor() == 15:
                         combinacionesValidas.append(comb[i])
 
         print("Combinaciones validas: ", len(combinacionesValidas))
         
-        for i in range(len(combinacionesValidas)):
+        #Imprime las combinaciones validas
+        '''for i in range(len(combinacionesValidas)):
             if type(combinacionesValidas[i]) is Carta:
                 print("Carta en la mesa: ", combinacionesValidas[i].getPalo(), combinacionesValidas[i].getValor())
             if type(combinacionesValidas[i]) == list:
@@ -64,41 +67,45 @@ class Persona:
                     print("Carta en la mesa: ")
                     for k in range (len(combinacionesValidas[i][j])):
                         print(combinacionesValidas[i][j][k].getPalo(), combinacionesValidas[i][j][k].getValor())
-    
-                        
+    '''            
         return combinacionesValidas
 
 
     def recogerCartas(self):
 
-        c1 = self.miMano[0] #Carta 1
-        c2 = self.miMano[1] #Carta 2
-        c3 = self.miMano[2] #Carta 3
+        #Verificar si hay cartas en la mesa
+        crds = []
+        tirar = []
+        combinaciones = []
 
-        comb = self.combinacionesMesa()
+        for i in range (len(self.miMano)):
+            crds.append(self.miMano[i])
+            tirar.append(False)
 
-        posibilidadesConC1 = self.verificarCombinacionyCarta(c1,comb)
-        tirarc1 = self._actualizarMesayMano(c1,posibilidadesConC1)
-        if (tirarc1 == True):
-            print('Carta 1 recogida')
+        comb = self.combinacionesMesa()    
 
-        posibilidadesConC2 = self.verificarCombinacionyCarta(c2,comb)
-        tirarc2 = self._actualizarMesayMano(c2,posibilidadesConC2)
-        if (tirarc2 == True):
-            print('Carta 2 recogida')
-        
-        posibilidadesConC3 = self.verificarCombinacionyCarta(c3,comb)
-        tirarc3 = self._actualizarMesayMano(c3,posibilidadesConC3)
-        if (tirarc3 == True):
-            print('Carta 3 recogida')
+        for i in range(len(self.miMano)):
 
+            combinaciones = self.verificarCombinacionyCarta(crds[i],comb)
+            
+            if len(combinaciones) > 0:
+                tirar[i] = True
+                self._actualizarMesayMano(crds[i],combinaciones)
+                break
 
-        if tirarc1 == False and tirarc2 == False and tirarc3 == False:
-            print("No hay combinaciones posibles, se debe tirar una carta del mazo")
-            #Tirar una carta del mazo a la mesa
-            self.m.append(self.miMano.pop())
-            #Actualizar mesa
-
+        '''for i in range(len(self.miMano)):
+            if tirar[i] == True:
+                self._actualizarMesayMano(crds[i],self.verificarCombinacionyCarta(crds[i],comb))
+                break'''
+    
+        #Si no hay ninguna combinacion posible
+        for i in range(len(self.miMano)):
+            if tirar[i] == False:
+                if len(self.miMano)-1 == i :
+                    #Tirar una carta del mazo a la mesa LA ULTIMA
+                    self.m.append(self.miMano.pop())
+                
+      
 
     def _actualizarMesayMano(self,card,vect):
         if len(vect) == 0:
@@ -128,8 +135,6 @@ class Persona:
                 self.miMano.remove(card) #Remuevo de la mano
                 self.misCartasRecogidas.append(card) #Agrego a mis cartas recogidas
 
-                   
-
              #Remuevo de la mesa
             
             return True #Retorno True para indicar que se recogio la carta
@@ -144,16 +149,17 @@ class Persona:
         #Combinaciones posibles de las cartas en la mesa
         combinaciones = []
 
+        largo_m = len(self.m)
+
         #Combinaciones de 1 carta
-        combinaciones.append(self.m[0]) #Agrego la primera carta de la mesa A
-        combinaciones.append(self.m[1]) #Agrego la segunda carta de la mesa B
-        combinaciones.append(self.m[2]) #Agrego la tercera carta de la mesa C
-        combinaciones.append(self.m[3]) #Agrego la cuarta carta de la mesa D
 
 
+        for i in range(largo_m):
+            combinaciones.append(self.m[i])  #Agrego carta individuales a combinaciones
+        
         #Combinaciones de 2 cartas
-        for i in range(0,3):
-            for j in range(0,4):
+        for i in range(0,largo_m):
+            for j in range(0,largo_m):
                 if i != j and i < j:
                     if self.m[i].getValor() + self.m[j].getValor() < 15:
                         aux = list()
@@ -161,9 +167,9 @@ class Persona:
                         combinaciones.append(aux)
 
         #Combinaciones de 3 cartas
-        for i in range(0,3):
-            for j in range(0,4):
-                for k in range(0,4):
+        for i in range(0,largo_m):
+            for j in range(0,largo_m):
+                for k in range(0,largo_m):
                     if i != j and i != k and j != k and i < j and j < k:
                         if self.m[i].getValor() + self.m[j].getValor() + self.m[k].getValor() < 15:
                             aux = list()
@@ -171,11 +177,28 @@ class Persona:
                             combinaciones.append(aux)
 
         #Combinaciones de 4 cartas
-        
-        if self.m[0].getValor() + self.m[1].getValor() + self.m[2].getValor() + self.m[3].getValor() < 15:
-            aux = list()
-            aux.append([self.m[0],self.m[1],self.m[2],self.m[3]])
-            combinaciones.append(aux)
+
+        for i in range(0,largo_m):
+            for j in range(0,largo_m):
+                for k in range(0,largo_m):
+                    for l in range(0,largo_m):
+                        if i != j and i != k and i != l and j != k and j != l and k != l and i < j and j < k and k < l:
+                            if self.m[i].getValor() + self.m[j].getValor() + self.m[k].getValor() + self.m[l].getValor() < 15:
+                                aux = list()
+                                aux.append([self.m[i],self.m[j],self.m[k],self.m[l]])
+                                combinaciones.append(aux)
+
+    
+        nn = 5
+        while nn <= largo_m:  #Supongamos que hay 5 cartas en la mesa
+            suma = 0   
+            aux = list() 
+            for i in range(0,nn):
+                aux.append(self.m[i])
+                suma = suma + self.m[i].getValor()
+            if suma < 15:
+                combinaciones.append(aux)  
+            nn+=1 
         
         print("Combinaciones posibles: ", len(combinaciones))
         return combinaciones
@@ -184,3 +207,9 @@ class Persona:
     def verMesa(self,mesa):
         self.m = mesa
 
+
+    def getNumCartasMano(self):
+        return len(self.miMano)
+
+    def getNumCartasRecogidas(self):
+        return len(self.misCartasRecogidas)

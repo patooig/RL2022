@@ -65,3 +65,6 @@ class Mesa:
 
     def setMesa(self,mesa):
         self.cartasMesa = mesa
+
+    def getNumCartasMazo(self):
+        return len(self.cartasMazo)
